@@ -1,25 +1,12 @@
 import { ProductType } from "./ProductType";
 
-export class Product {
-  public title: string;
-  public imageUrl: string;
-  public basePrice: number;
-  public taxRate: number = 1.25;
-  public discountRate: number = 0.15;
-  public productType: ProductType;
-
-  constructor(productType: ProductType, title: string, imageUrl: string, basePrice: number) {
-    this.title = title;
-    this.imageUrl = imageUrl;
-    this.basePrice = basePrice;
-    this.productType = productType;
-  }
-
-  public getPrice(): number {
-    return (this.basePrice * (1 - this.discountRate)) * this.taxRate;
-  }
-
-  public getPriceWithoutTaxes(): number {
-    return this.basePrice * (1 - this.discountRate);
-  }
+export interface Product {
+  title: string;
+  imageUrl: string;
+  basePrice: number;
+  taxRate: number;
+  discountRate: number;
+  productType: ProductType;
+  price: number;
+  priceWithoutTaxes: number;
 }

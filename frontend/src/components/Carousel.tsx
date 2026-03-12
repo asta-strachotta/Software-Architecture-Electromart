@@ -14,7 +14,7 @@ const Carousel = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/get-product-recommendations');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/get-product-recommendations`);
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching products:', error);

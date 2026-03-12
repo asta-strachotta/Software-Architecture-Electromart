@@ -13,8 +13,8 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get<Product[]>('http://localhost:3001/get-products-by-category?productType=' + productType);
-        const products = response.data.map(item => new Product(productType as ProductType, item.title, item.imageUrl, item.basePrice));
+        const response = await axios.get<Product[]>(`${process.env.REACT_APP_BACKEND_BASE_URL}/get-products-by-category?productType=${productType}`);
+        const products = response.data;
         setProducts(products);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -32,7 +32,7 @@ const Products = () => {
           <div className='product-item' key={index}>
             <img src={product.imageUrl} alt={product.title} style={{ width: '100px', height: '100px' }} />
             <h3>{product.title}</h3>
-            <p>Price: ${product.getPrice()}</p>
+            <p>Price: ${product.price.toFixed(2)}</p>
           </div>
         ))}
       </div>

@@ -1,8 +1,9 @@
 import express, { Request, Response } from 'express';
 import { recommendedProducts } from './dummyData';
+import process from 'process';
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT;
 const cors = require('cors');
 app.use(cors());
 
