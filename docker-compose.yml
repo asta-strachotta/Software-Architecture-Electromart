@@ -15,3 +15,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3001:3001"
+    volumes:
+      # so the feature toggle config can be edited from outside
+      - ./backend/config/featureToggles.json:/usr/src/app/config/featureToggles.json

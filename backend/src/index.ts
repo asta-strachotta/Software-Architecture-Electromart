@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { recommendedProducts } from './dummyData';
 import process from 'process';
+import { featureToggle } from './middleware/featureToggle';
 
 const app = express();
 const port = process.env.PORT;
@@ -33,7 +34,9 @@ app.get("/get-products-by-category", (req: Request, res: Response) => {
   return res.json(products);
 });
 
-app.get("/unfinished-feature", (_: Request, res: Response) => {
+// Task 3:
+// Example of feature toggle. I will provide an example implementation in the next commit.
+app.get("/unfinished-feature", featureToggle("unfinished-feature"), (_: Request, res: Response) => {
   // Oh no, this feature is not ready for production!
   return res.status(500).send('Internal Server Error');
 });
