@@ -1,7 +1,11 @@
 import express, { Request, Response } from 'express';
-import { recommendedProducts } from './dummyData';
 import process from 'process';
+
 import { featureToggle } from './middleware/featureToggle';
+
+import { recommendedProducts } from './dummyData';
+
+import {DEAL_OF_THE_DAY_DISCOUNT} from "./consts";
 
 const app = express();
 const port = process.env.PORT;
@@ -39,6 +43,21 @@ app.get("/get-products-by-category", (req: Request, res: Response) => {
 app.get("/unfinished-feature", featureToggle("unfinished-feature"), (_: Request, res: Response) => {
   // Oh no, this feature is not ready for production!
   return res.status(500).send('Internal Server Error');
+});
+
+// Deal of the Day - picks a random product and applies a 20% discount.
+// It just returns a JSON object which we could display but it is probably out of scope...
+app.get("/deal-of-the-day", featureToggle("deal-of-the-day"), (_: Request, res: Response) => {
+  const randomIndex = Math.floor(Math.random() * recommendedProducts.length);
+  const product = recommendedProducts[randomIndex];
+
+  return res.json({
+    title: product.title,
+    image: product.imageUrl,
+    originalPrice: product.getPrice(),
+    dealPrice: product.getPrice() * (1 - DEAL_OF_THE_DAY_DISCOUNT),
+    productType: product.productType,
+  });
 });
 
 app.listen(port, () => {
